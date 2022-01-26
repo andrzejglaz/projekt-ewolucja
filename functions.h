@@ -13,7 +13,7 @@
  *		 funkcja zamienia binarny zapis chromosomu osobnika na dziesietny, nastepnie zwraca wartosc oceny(f) wstawiajac otrzymana liczbe we wzor funkcji 
  * @param individual wektor zawierajacy kolejne chromosomy danego osobnika
  */
-int f(std::vector<int> individual);
+double f(std::vector<int> individual);
 
 /**
  * @fn void adaptation(vector<vector<long int>>& individuals)
@@ -87,16 +87,16 @@ bool is_string_a_number(std::string parameter);
 
 /**
  * @fn main_params read_main_params(char* params[], int ile)
- * @brief funkcja odczytuj¹ca parametry funkcji main()
+ * @brief funkcja odczytujaca parametry funkcji main()
  *
- *		 funkcja odczytuje po koleiparametry wprowadzone przez u¿ytkownika i sprawdza ich poprawnoœæ (czy s¹ odpowiedniego typu oraz czy u¿ytkownik w ogóle je wprowadzi³)
- * @param params[] tablica parametrów i ich etykiet
- * @param ile d³ugoœæ tablicy params[]
+ *		 funkcja odczytuje po kolei parametry wprowadzone przez uztkownika i sprawdza ich poprawnosc czy sa odpowiedniego typu oraz czy uzytkownik w ogole je wprowadzil)
+ * @param params[] tablica parametrow i ich etykiet
+ * @param ile dlugosc tablicy params[]
  */
 main_params read_main_params(char* params[], int ile);
 
 /**
  * @fn void message()
- * @brief funkcja wyœwietlajaca komunikat jak uzywac programu
+ * @brief funkcja wyswietlajaca komunikat jak uzywac programu
  */
 void message();

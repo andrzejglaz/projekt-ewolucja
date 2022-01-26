@@ -37,13 +37,18 @@ void adaptation(vector<vector<int>>& individuals)
 
     for (int x = 0; x < individuals.size(); x++) 
     {
-        if (individuals[x].size() < 2 || individuals[x].size() > 12)
+        if (individuals[x].size() < 2) //osobników mniejszych ni¿ 2 nie da siê krzy¿owaæ
         {
             individuals.erase(individuals.begin() + x);
             continue;
         }
         sort_by_adaptation individual;
         individual.rating = f(individuals[x]);
+        if(individual.rating >= 395038545528 || individual.rating <= -395038545528) // zabezpieczenie przed wyjœciem poza rozmiar double
+        {
+            individuals.erase(individuals.begin() + x);
+            continue;
+        }
         if (individual.rating < min_rating)
             min_rating = individual.rating;
         individual.chromosome = individuals[x];
@@ -76,6 +81,7 @@ void adaptation(vector<vector<int>>& individuals)
     }
     individuals.clear();
     individuals = to_copy; // nowe pokolenie do rozmna¿ania
+    to_copy.clear();
 
 }
 void crossing(vector<vector<int>>& individuals, int k)//przekazanie osobników przez referencjê
@@ -170,12 +176,13 @@ vector<vector<int>> read_from_file(string input_file)
         vector<int> verse;
         while (getline(file, line))
         {
-            stringstream ss; // wy³uskanie intów
+            stringstream ss; // wyluskanie intow
             ss << line;
             int number;
             while (ss >> number)
                 verse.push_back(number);
-            individuals.push_back(verse);
+            if(verse.size() != 0)
+                individuals.push_back(verse);
             verse.clear();
         }
         file.close();
@@ -201,7 +208,7 @@ void save_in_file(vector<vector<int>> individuals, string out_file)
     else
         cout << "nie udalo sie otworzyc pliku :(";
 }
-int f(vector<int> individual) // jakaœ funkcja
+double f(vector<int> individual) // jakaœ funkcja
 {
     //f(x) = (-3)(x^2 - 70)
     int chromosome_decimally = 0;
@@ -246,7 +253,9 @@ bool is_string_a_number(string parameter)
 }
 main_params read_main_params(char* params[], int ile)
 {
-    main_params parameters{ 0, 0, 0 };
+
+    main_params parameters{ 0, 0, 0};
+ 
     if (ile > 1)
     {
 
@@ -266,9 +275,12 @@ main_params read_main_params(char* params[], int ile)
 
                     }
                 }
+
                 else
                     cout << "nie podales pliku z wejsciem" << endl;
+             
             }
+
             else if (_stricmp(params[x], "-o") == 0)
             {
                 if (x + 1 < ile)
@@ -282,6 +294,7 @@ main_params read_main_params(char* params[], int ile)
                 }
                 else
                     cout << "nie podales pliku z wyjsciem" << endl;
+                
             }
             else if (_stricmp(params[x], "-p") == 0)
             {
@@ -300,6 +313,7 @@ main_params read_main_params(char* params[], int ile)
                 }
                 else
                     cout << "nie podales parametru p" << endl;
+               
             }
             else if (_stricmp(params[x], "-k") == 0)
             {
@@ -318,6 +332,7 @@ main_params read_main_params(char* params[], int ile)
                 }
                 else
                     cout << "nie podales parametru k" << endl;
+               
             }
             else if (_stricmp(params[x], "-m") == 0)
             {
@@ -336,11 +351,13 @@ main_params read_main_params(char* params[], int ile)
                 }
                 else
                     cout << "nie podales parametru m" << endl;
+              
             }
         }
     }
- 
+
     return parameters;
+   
 
 }
 void message()
